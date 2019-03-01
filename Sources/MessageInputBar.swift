@@ -115,7 +115,8 @@ open class MessageInputBar: UIView {
      2. It's spacing is initially set to 15
      */
     public let bottomStackView = InputStackView(axis: .horizontal, spacing: 15)
-    
+
+
     /// The InputTextView a user can input a message in
     open lazy var inputTextView: InputTextView = { [weak self] in
         let inputTextView = InputTextView()
@@ -339,15 +340,20 @@ open class MessageInputBar: UIView {
     
     /// Adds all of the subviews
     private func setupSubviews() {
-        
+        let drawerFrame = CGRect(x: 0.0, y: 0.0, width: frame.width, height: 100.0)
+        let drawerView = UIView(frame: drawerFrame)
+        drawerView.backgroundColor = .red
         addSubview(backgroundView)
         addSubview(topStackView)
         addSubview(contentView)
         addSubview(separatorLine)
+        //addSubview(drawerView)
+
         contentView.addSubview(inputTextView)
         contentView.addSubview(leftStackView)
         contentView.addSubview(rightStackView)
         contentView.addSubview(bottomStackView)
+        //contentView.addSubview(drawerView)
         setStackViewItems([sendButton], forStack: .right, animated: false)
     }
     
@@ -414,6 +420,8 @@ open class MessageInputBar: UIView {
             left:   bottomStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 0),
             right:  bottomStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: 0)
         )
+
+
         activateConstraints()
     }
     
@@ -499,7 +507,7 @@ open class MessageInputBar: UIView {
         // Calculate the required height
         let totalPadding = padding.top + padding.bottom + topStackViewPadding.top + textViewPadding.top + textViewPadding.bottom
         let topStackViewHeight = topStackView.arrangedSubviews.count > 0 ? topStackView.bounds.height : 0
-        let bottomStackViewHeight = bottomStackView.arrangedSubviews.count > 0 ? bottomStackView.bounds.height : 0
+        let bottomStackViewHeight = (bottomStackView.arrangedSubviews.count > 0 ? bottomStackView.bounds.height : 0)
         let verticalStackViewHeight = topStackViewHeight + bottomStackViewHeight
         let requiredHeight = inputTextViewHeight + totalPadding + verticalStackViewHeight
         return CGSize(width: bounds.width, height: requiredHeight)

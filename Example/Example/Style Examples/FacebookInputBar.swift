@@ -55,6 +55,8 @@ class FacebookInputBar: MessageInputBar {
         setLeftStackViewWidthConstant(to: 36, animated: false)
         setStackViewItems([button], forStack: .left, animated: false)
         sendButton.setSize(CGSize(width: 52, height: 36), animated: false)
+
+        
     }
     
 }

@@ -50,6 +50,13 @@ public protocol MessageInputBarDelegate: AnyObject {
     ///   - inputBar: The MessageInputBar
     ///   - text: The current text in the MessageInputBar's InputTextView
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String)
+
+    func messageInputBar(_ inputBar: MessageInputBar, toggleApps visible: Bool)
+
+    func messageInputBar(_ inputBar: MessageInputBar, showCamera visible: Bool )
+
+    func messageInputBar(_ inputBar: MessageInputBar, didAttach image: UIImage)
+
 }
 
 public extension MessageInputBarDelegate {
@@ -59,4 +66,12 @@ public extension MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, didChangeIntrinsicContentTo size: CGSize) {}
     
     func messageInputBar(_ inputBar: MessageInputBar, textViewTextDidChangeTo text: String) {}
+
+    func messageInputBar(_ inputBar: MessageInputBar, toggleApps visible: Bool) {}
+
+    func messageInputBar(_ inputBar: MessageInputBar, showCamera visible: Bool) {}
+
+    func messageInputBar(_ inputBar: MessageInputBar, didAttach image: UIImage) {}
+
+
 }

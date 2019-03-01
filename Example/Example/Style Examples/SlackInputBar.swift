@@ -38,9 +38,16 @@ class SlackInputBar: MessageInputBar {
     
     func configure() {
         backgroundView.backgroundColor = .white
-        inputTextView.backgroundColor = .clear
-        inputTextView.layer.borderWidth = 0
-        let items = [
+        inputTextView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        inputTextView.placeholderTextColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
+        inputTextView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
+        inputTextView.layer.borderWidth = 1.0
+        inputTextView.layer.cornerRadius = 16.0
+        inputTextView.layer.masksToBounds = true
+        inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+      let items = [
             makeButton(named: "ic_camera").onTextViewDidChange { button, textView in
                 button.isEnabled = textView.text.isEmpty
                 }.onSelected {
@@ -85,11 +92,7 @@ class SlackInputBar: MessageInputBar {
             }
         ]
         items.forEach { $0.tintColor = .lightGray }
-        
-        // We can change the container insets if we want
-        inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
-        
+                
         let maxSizeItem = InputBarButtonItem()
             .configure {
                 $0.image = UIImage(named: "icons8-expand")?.withRenderingMode(.alwaysTemplate)
