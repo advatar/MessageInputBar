@@ -23,6 +23,8 @@
  */
 
 import UIKit
+import MapKit
+import CoreLocation
 
 open class AttachmentManager: NSObject, InputPlugin {
   
@@ -30,6 +32,7 @@ open class AttachmentManager: NSObject, InputPlugin {
         case image(UIImage)
         case url(URL)
         case data(Data)
+        case location(CLLocation)
     }
     
     // MARK: - Properties [Public]
@@ -84,6 +87,8 @@ open class AttachmentManager: NSObject, InputPlugin {
             attachment = .image(image)
         } else if let url = object as? URL {
             attachment = .url(url)
+        } else if let location = object as? CLLocation {
+            attachment = .location(location)
         } else if let data = object as? Data {
             attachment = .data(data)
         } else {
@@ -160,9 +165,28 @@ extension AttachmentManager: UICollectionViewDataSource, UICollectionViewDelegat
         if let cell = dataSource?.attachmentManager(self, cellFor: attachment, at: indexPath.row) {
             return cell
         } else {
-            
             // Only images are supported by default
             switch attachment {
+            case .location(let location):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocationAttachmentCell.reuseIdentifier, for: indexPath) as? LocationAttachmentCell else {
+                    fatalError()
+                }
+                cell.attachment = attachment
+                cell.indexPath = indexPath
+                cell.manager = self
+                // now create a snapshot of this location
+                let options = MKMapSnapshotter.Options()
+                let span = MKCoordinateSpan(latitudeDelta: 10.0, longitudeDelta: 10.0)
+                options.region = MKCoordinateRegion(center: location.coordinate, span: span)
+                let snapShotter = MKMapSnapshotter(options: options)
+
+                snapShotter.start { (snapshot, error) in
+                    if error == nil {
+                        cell.imageView.image = snapshot?.image
+                    }
+                }
+
+                return cell
             case .image(let image):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageAttachmentCell.reuseIdentifier, for: indexPath) as? ImageAttachmentCell else {
                     fatalError()
@@ -175,7 +199,6 @@ extension AttachmentManager: UICollectionViewDataSource, UICollectionViewDelegat
             default:
                 return collectionView.dequeueReusableCell(withReuseIdentifier: AttachmentCell.reuseIdentifier, for: indexPath) as! AttachmentCell
             }
-            
         }
     }
     

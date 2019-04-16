@@ -23,6 +23,7 @@
  */
 
 import Foundation
+import CoreLocation
 
 /// A protocol that can receive different event notifications from the MessageInputBar.
 public protocol MessageInputBarDelegate: AnyObject {
@@ -57,6 +58,8 @@ public protocol MessageInputBarDelegate: AnyObject {
 
     func messageInputBar(_ inputBar: MessageInputBar, didAttach image: UIImage)
 
+    func messageInputBar(_ inputBar: MessageInputBar, didAttach location: CLLocation)
+
 }
 
 public extension MessageInputBarDelegate {
@@ -72,6 +75,8 @@ public extension MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, showCamera visible: Bool) {}
 
     func messageInputBar(_ inputBar: MessageInputBar, didAttach image: UIImage) {}
+
+    func messageInputBar(_ inputBar: MessageInputBar, didAttach location: CLLocation) {}
 
 
 }
