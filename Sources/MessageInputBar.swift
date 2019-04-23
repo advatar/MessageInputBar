@@ -24,6 +24,20 @@
 
 import UIKit
 
+public class Bookmark {
+    public let image: UIImage?
+    public let title: String?
+    public let summary: String?
+    public let urlString: String
+
+    public init(image: UIImage?, title: String?, summary: String?,urlString: String ) {
+        self.image = image
+        self.title = title
+        self.summary = summary
+        self.urlString = urlString
+    }
+}
+
 /// A powerful InputAccessoryView ideal for messaging applications
 open class MessageInputBar: UIView {
     

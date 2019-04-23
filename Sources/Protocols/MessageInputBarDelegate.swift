@@ -58,6 +58,8 @@ public protocol MessageInputBarDelegate: AnyObject {
 
     func messageInputBar(_ inputBar: MessageInputBar, didAttach image: UIImage)
 
+    func messageInputBar(_ inputBar: MessageInputBar, didAttach bookmark: Bookmark)
+
     func messageInputBar(_ inputBar: MessageInputBar, didAttach location: CLLocation)
 
 }
@@ -75,6 +77,8 @@ public extension MessageInputBarDelegate {
     func messageInputBar(_ inputBar: MessageInputBar, showCamera visible: Bool) {}
 
     func messageInputBar(_ inputBar: MessageInputBar, didAttach image: UIImage) {}
+
+    func messageInputBar(_ inputBar: MessageInputBar, didAttach bookmark: Bookmark) {}
 
     func messageInputBar(_ inputBar: MessageInputBar, didAttach location: CLLocation) {}
 

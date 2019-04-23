@@ -33,6 +33,8 @@ open class AttachmentManager: NSObject, InputPlugin {
         case url(URL)
         case data(Data)
         case location(CLLocation)
+        case bookmark(Bookmark)
+
     }
     
     // MARK: - Properties [Public]
@@ -89,6 +91,9 @@ open class AttachmentManager: NSObject, InputPlugin {
             attachment = .url(url)
         } else if let location = object as? CLLocation {
             attachment = .location(location)
+        } else if let bookmark = object as? Bookmark {
+            print("handleInput bookmark", bookmark.urlString)
+            attachment = .bookmark(bookmark)
         } else if let data = object as? Data {
             attachment = .data(data)
         } else {
@@ -104,7 +109,6 @@ open class AttachmentManager: NSObject, InputPlugin {
     ///
     /// - Parameter index: The index to insert the attachment at
     open func insertAttachment(_ attachment: Attachment, at index: Int) {
-        
         attachmentView.performBatchUpdates({
             self.attachments.insert(attachment, at: index)
             self.attachmentView.insertItems(at: [IndexPath(row: index, section: 0)])
@@ -167,6 +171,17 @@ extension AttachmentManager: UICollectionViewDataSource, UICollectionViewDelegat
         } else {
             // Only images are supported by default
             switch attachment {
+            case .bookmark(let bookmark):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageAttachmentCell.reuseIdentifier, for: indexPath) as? ImageAttachmentCell else {
+                    fatalError()
+                }
+                print("AttachmentManager", bookmark.urlString)
+                cell.attachment = attachment
+                cell.indexPath = indexPath
+                cell.manager = self
+                cell.imageView.image = bookmark.image
+                return cell
+
             case .location(let location):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocationAttachmentCell.reuseIdentifier, for: indexPath) as? LocationAttachmentCell else {
                     fatalError()
